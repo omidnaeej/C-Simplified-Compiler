@@ -87,13 +87,16 @@ Sample inputs and outputs are provided in each directory for validation.
    ```bash
    cd Phase1
    ```
-3. Build and run:
+   
+3. Run:
 
    ```bash
-   javac *.java
-   java Main input.c
+   javac phase-1/src/*.java
+   java -cp phase-1/src SimpleLang input.c
    ```
-4. Check the output files or console logs for results (AST printout, analysis reports, etc.).
+   Replace input.c with your test source file written in the simplified C syntax.
+   
+5. Check the output files or console logs for results (AST printout, analysis reports, etc.).
 
 ---
 
@@ -128,7 +131,7 @@ Line:24 -> ReturnTypeMismatch: expected int, found float
 
 ---
 
-## 🪪 License
+## License
 
 This project is released for educational purposes.
 All rights reserved © 2025 Omid Naeej.
