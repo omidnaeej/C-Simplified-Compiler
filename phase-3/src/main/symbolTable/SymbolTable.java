@@ -1,0 +1,100 @@
+package main.symbolTable;
+
+
+import main.symbolTable.exceptions.ItemAlreadyExistsException;
+import main.symbolTable.exceptions.ItemNotFoundException;
+import main.symbolTable.item.FuncDefSymbolTableItem;
+import main.symbolTable.item.SymbolTableItem;
+
+import java.util.*;
+
+
+public class SymbolTable {
+
+    //Start of static members
+
+    public static SymbolTable top;
+    public static SymbolTable root;
+    private static Stack<SymbolTable> stack = new Stack<>();
+
+    public static void push(SymbolTable symbolTable) {
+        if (top != null)
+            stack.push(top);
+        top = symbolTable;
+    }
+
+    public static void pop() {
+        top = stack.pop();
+    }
+
+    public SymbolTable pre;
+    public Map<String, SymbolTableItem> items;
+
+    public SymbolTable() {
+        this(null);
+    }
+
+    public SymbolTable(SymbolTable pre) {
+        this.pre = pre;
+        this.items = new HashMap<>();
+    }
+
+    public static Stack<SymbolTable> getStack() {
+        return stack;
+    }
+
+    public void put(SymbolTableItem item) throws ItemAlreadyExistsException {
+        if (items.containsKey(item.getKey()))
+            throw new ItemAlreadyExistsException();
+        items.put(item.getKey(), item);
+    }
+
+    public SymbolTableItem getItem(String key) throws ItemNotFoundException {
+        SymbolTable currentSymbolTable = this;
+
+        while(currentSymbolTable != null) {
+            SymbolTableItem symbolTableItem = currentSymbolTable.items.get(key);
+            if( symbolTableItem != null )
+                return symbolTableItem;
+            currentSymbolTable = currentSymbolTable.pre;
+        }
+        throw new ItemNotFoundException();
+    }
+
+    public SymbolTableItem getItem(String key, int paramCount) throws ItemNotFoundException {
+        // build the real lookup key
+        String lookupKey =
+                key.startsWith(FuncDefSymbolTableItem.START_KEY)
+                        ? key + "_" + paramCount
+                        : key;
+
+        SymbolTable current = this;
+        while (current != null) {
+            SymbolTableItem item = current.items.get(lookupKey);
+            if (item != null) return item;
+            current = current.pre;
+        }
+        throw new ItemNotFoundException();
+    }
+
+    public int getItemsSize() {
+        return this.items.size();
+    }
+
+    public SymbolTableItem[] getAllItems() {
+        List<SymbolTableItem> list = new ArrayList<>();
+        Set<String> seenKeys = new HashSet<>();
+        SymbolTable current = this;
+        while (current != null) {
+            for (SymbolTableItem item : current.items.values()) {
+                // only add if not already overridden by a child
+                if (seenKeys.add(item.getKey())) {
+                    list.add(item);
+                }
+            }
+            current = current.pre;
+        }
+        return list.toArray(new SymbolTableItem[0]);
+    }
+
+}
