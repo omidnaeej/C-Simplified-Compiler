@@ -7,8 +7,8 @@ The project gradually builds a full front-end pipeline: from parsing and AST gen
 
 ## 📚 Project Overview
 
-| Phase | Focus | Key Concepts |
-|:------|:-------|:--------------|
+|  Phase  | Focus | Key Concepts |
+|:--------|:-------|:--------------|
 | **Phase 1** | Abstract Syntax Tree (AST) construction | ANTLR grammar design, AST node hierarchy, statement counting, expression depth, and CPY (Python-like C) conversion |
 | **Phase 2** | Name Analysis & Code Optimization | Symbol tables, undeclared variable/function detection, unreachable/dead code elimination, and static optimizations |
 | **Phase 3** | Type Checking & Vulnerability Detection | Type compatibility checking, function signature validation, and basic security analysis (memory leaks, uninitialized vars) |
