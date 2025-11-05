@@ -30,10 +30,8 @@ The project gradually builds a full front-end pipeline: from parsing and AST gen
   - Undeclared variable usage.
   - Undeclared function calls.
 - Performs optimizations:
-  - Removes unused variables/parameters.
   - Eliminates dead code after `return`.
-  - Simplifies multiple assignments.
-  - Substitutes `typedef` and constant values.
+  - Deleting side-effect-free instructions.
   - Removes unreachable code (from `main` reachability analysis).
 
 ### **Phase 3: Type & Vulnerability Analysis**
@@ -102,7 +100,7 @@ Sample inputs and outputs are provided in each directory for validation.
 ## Example Outputs
 
 **Statement counting and expression recognition (Phase 1):**
-#### program: 
+#### Program: 
 ```c
 // Function to reverse a number
 int reverseNumber(int num) {
@@ -139,7 +137,7 @@ int main() {
 }
 ```
 
-#### output: 
+#### Compiler Output: 
 ```
 Line 2: Stmt function reverseNumber = 3
 Line 3: Expr 0
@@ -164,10 +162,66 @@ Line 29: Expr printf
 Line 32: Expr 0
 ```
 
-**Undeclared variable detection (Phase 2):**
+**Undeclared variable and function detection (Phase 2):**
 
+#### Program: 
+```c
+void foo() {
+    printf("heb");
+}
+void foo(int x) {
+    printf("heb");
+}
+int foo(int x, char y) {
+    printf("heb");
+}
+void moo(char x, char y) {
+    printf("%s%s", x, y);
+    moo(20);
+}
+void shoo() {
+    int x;
+    foo(foo(x), x);
+    moo(10);
+}
+int main(){
+    foo(3);
+    foo(3, 5);
+    moo("Hello", "World");
+}
 ```
-Line:12 -> x not declared
+
+#### Compiler Output: 
+```
+Line:12-> moo not declared
+Line:17-> moo not declared
+```
+
+**Main Access Analysis (Phase 2):**
+
+#### Program: 
+```c
+void startEngine() {
+    printf("Engine started.\n");
+}
+
+void checkOil() {
+    printf("Oil level checked.\n");
+}
+
+void washCar() {
+    printf("Car washed.\n");
+}
+
+int main() {
+    startEngine();
+}
+```
+
+#### Compiler Output: 
+```
+Line 1: Stmt function startEngine = 1 0
+Line 13: Stmt function main = 1 0
 ```
 
 **Type mismatch (Phase 3):**
