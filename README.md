@@ -11,7 +11,7 @@ The project gradually builds a full front-end pipeline: from parsing and AST gen
 |:--------|:-------|:--------------|
 | **Phase 1** | Abstract Syntax Tree (AST) construction | ANTLR grammar design, AST node hierarchy, statement counting, and expression types recognition |
 | **Phase 2** | Name Analysis & Code Optimization | Symbol tables, undeclared variable/function detection, unreachable/dead code elimination, and static optimizations |
-| **Phase 3** | Type Checking & Vulnerability Detection | Type compatibility checking, function signature validation, and basic security analysis (memory leaks, uninitialized vars) |
+| **Phase 3** | Type Checking & Vulnerability Detection | Type compatibility checking, and function signature validation |
 
 ---
 
@@ -39,9 +39,6 @@ The project gradually builds a full front-end pipeline: from parsing and AST gen
   - Argument–parameter type mismatches.
   - Inconsistent operand types in expressions.
   - Return type mismatches.
-- Security checks (for Computer Engineering extension):
-  - Memory leaks (allocated but not freed memory).
-  - Use of uninitialized variables.
 
 ---
 
