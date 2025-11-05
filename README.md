@@ -256,7 +256,7 @@ Line:14 -> argument type mismatch
 
 ## Author
 
-**Omid Naeej**
+**Omid Naeej Nejad**
 📍 *Compiler Design Undergraduate Project, Spring 2025*
 🔗 [GitHub Profile](https://github.com/omidnaeej)
 
