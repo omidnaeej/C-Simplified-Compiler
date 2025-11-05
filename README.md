@@ -69,6 +69,7 @@ Sample inputs and outputs are provided in each directory for validation.
 ---
 
 ## How to Run
+> It's recommended to use `Intellij Idea` according to its specific environment for executing java programs and easy to adjust configs.
 
 1. Clone the repository:
    ```bash
@@ -92,7 +93,6 @@ Sample inputs and outputs are provided in each directory for validation.
    
 4. Check the output files or console logs for results (AST printout, analysis reports, etc.).
 
-> It's recommended to use Intellij Idea according to its specific environment for executing java programs and easy to adjust configs.
 
 ---
 
@@ -225,13 +225,36 @@ Line 13: Stmt function main = 1 0
 
 **Type mismatch (Phase 3):**
 
+#### Program: 
+```c
+void print1(int a, int b) {
+    int c = a + b;
+    printf(c);
+}
+
+void print2(float a, float b) {
+    int c = a + b;
+    printf(c);
+}
+
+int main(char f) {
+    int a = 123;
+    float b = 5.5;
+    print1(a, b);
+    print2(a, b);
+    return 0;
+}
 ```
-Line:24 -> ReturnTypeMismatch: expected int, found float
+
+#### Compiler Output: 
+```
+Line:7 -> type mismatch in expression
+Line:14 -> argument type mismatch
 ```
 
 ---
 
-## 🧑‍💻 Author
+## Author
 
 **Omid Naeej**
 📍 *Compiler Design Undergraduate Project, Spring 2025*
@@ -242,6 +265,6 @@ Line:24 -> ReturnTypeMismatch: expected int, found float
 ## License
 
 This project is released for educational purposes.
-All rights reserved © 2025 Omid Naeej.
+All rights reserved © 2025 Omid Naeej Nejad.
 
 ---
