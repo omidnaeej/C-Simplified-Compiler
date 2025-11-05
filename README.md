@@ -9,7 +9,7 @@ The project gradually builds a full front-end pipeline: from parsing and AST gen
 
 |  Phase  | Focus | Key Concepts |
 |:--------|:-------|:--------------|
-| **Phase 1** | Abstract Syntax Tree (AST) construction | ANTLR grammar design, AST node hierarchy, statement counting, expression depth, and CPY (Python-like C) conversion |
+| **Phase 1** | Abstract Syntax Tree (AST) construction | ANTLR grammar design, AST node hierarchy, statement counting, and expression types recognition |
 | **Phase 2** | Name Analysis & Code Optimization | Symbol tables, undeclared variable/function detection, unreachable/dead code elimination, and static optimizations |
 | **Phase 3** | Type Checking & Vulnerability Detection | Type compatibility checking, function signature validation, and basic security analysis (memory leaks, uninitialized vars) |
 
@@ -22,8 +22,7 @@ The project gradually builds a full front-end pipeline: from parsing and AST gen
 - AST node definitions for statements, expressions, and control flow.
 - Computes:
   - Number of statements in each scope.
-  - Expression depth.
-- Converts C-like syntax to a Python-style version (“CPY”) for readability.
+  - Expression types recognition.
 
 ### **Phase 2: Name Analysis & Optimizations**
 - Symbol table construction (variables, functions, scopes).
@@ -100,13 +99,69 @@ Sample inputs and outputs are provided in each directory for validation.
 
 ---
 
-## 🧾 Example Outputs
+## Example Outputs
 
-**Statement counting and expression depth (Phase 1):**
+**Statement counting and expression recognition (Phase 1):**
+#### program: 
+```c
+// Function to reverse a number
+int reverseNumber(int num) {
+    int reversedNum = 0;
+    while (num > 0) {
+        reversedNum = (reversedNum * 10) + (num % 10);
+        num /= 10;
+    }
+    return reversedNum;
+}
 
+int main() {
+    int number;
+
+    // Get input from the user
+    printf("Enter an integer: ");
+    scanf("%d", &number);
+
+    // Handle negative numbers (not palindromes)
+    if (number < 0) {
+        printf("%d is not a palindrome.\n", number);
+        return 0;
+    }
+
+    // Check if the number is a palindrome
+    int reversed = reverseNumber(number);
+    if (number == reversed) {
+        printf("%d is a palindrome.\n", number);
+    } else {
+        printf("%d is not a palindrome.\n", number);
+    }
+
+    return 0;
+}
 ```
-Function -> 5 statements
-Expression -> Depth: 3
+
+#### output: 
+```
+Line 2: Stmt function reverseNumber = 3
+Line 3: Expr 0
+Line 4: Expr >
+Line 4: Stmt while = 2
+Line 5: Expr =
+Line 6: Expr /=
+Line 8: Expr reversedNum
+Line 11: Stmt function main = 7
+Line 15: Expr printf
+Line 16: Expr scanf
+Line 19: Expr <
+Line 19: Stmt selection = 2
+Line 20: Expr printf
+Line 21: Expr 0
+Line 25: Expr reverseNumber
+Line 26: Expr ==
+Line 26: Stmt selection = 1
+Line 28: Stmt selection = 1
+Line 27: Expr printf
+Line 29: Expr printf
+Line 32: Expr 0
 ```
 
 **Undeclared variable detection (Phase 2):**
