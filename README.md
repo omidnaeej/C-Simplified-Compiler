@@ -56,9 +56,9 @@ The project gradually builds a full front-end pipeline: from parsing and AST gen
 ```
 
 C-Simplified-Compiler/
-├── Phase1/   # AST construction and CPY converter
+├── Phase1/   # AST construction
 ├── Phase2/   # Name analysis and optimization
-├── Phase3/   # Type checking and vulnerability detection
+├── Phase3/   # Type checking
 └── README.md
 
 ```
@@ -90,7 +90,9 @@ Sample inputs and outputs are provided in each directory for validation.
    ```
    Replace input.c with your test source file written in the simplified C syntax.
    
-5. Check the output files or console logs for results (AST printout, analysis reports, etc.).
+4. Check the output files or console logs for results (AST printout, analysis reports, etc.).
+
+> It's recommended to use Intellij Idea according to its specific environment for executing java programs and easy to adjust configs.
 
 ---
 
